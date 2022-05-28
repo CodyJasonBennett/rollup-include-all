@@ -1,0 +1,17 @@
+{
+  "name": "rollup-include-all",
+  "version": "0.1.0",
+  "description": "A rollup plugin to include all files despite tree-shaking.",
+  "author": "Cody Bennett (https://github.com/CodyJasonBennett)",
+  "homepage": "https://github.com/CodyJasonBennett/rollup-include-all",
+  "repository": "https://github.com/CodyJasonBennett/rollup-include-all",
+  "license": "MIT",
+  "keywords": [
+    "rollup",
+    "treeshaking",
+    "native",
+    "react",
+    "react-native"
+  ],
+  "main": "index.js"
+}
