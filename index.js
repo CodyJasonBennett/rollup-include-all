@@ -18,8 +18,7 @@ function rollupIncludeAll() {
     buildStart(config) {
       // Disable tree-shaking to preserve exports
       config.treeshake = false
-      if (!config.output) config.output = {}
-      config.output.preserveModules = true
+      config.output = { ...config.output, preserveModules: true }
 
       // Transform flatbundle as entrypoint
       const { dir, ext } = path.parse(config.input[0])
@@ -37,6 +36,9 @@ function rollupIncludeAll() {
           return acc + `import '${localPath}'\n`
         }, ''),
       )
+    },
+    renderChunk(code) {
+      return code.replace(/(?!from\s?['"][^'"]+)\.(cjs|mjs|jsx?|tsx?)(?=['"])/g, '')
     },
     generateBundle(_, bundle) {
       // Don't emit flatbundle
