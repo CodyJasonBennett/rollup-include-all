@@ -12,9 +12,13 @@ const crawl = (dirPath) =>
  * A rollup plugin to include all files despite tree-shaking.
  */
 function rollupIncludeAll() {
+  const name = 'rollup-include-all'
+  if (process.env.NODE_ENV !== 'production') return { name }
+
   let entryFile
 
   return {
+    name,
     buildStart(config) {
       // Disable tree-shaking to preserve exports
       config.output = { ...config.output, preserveModules: true }
