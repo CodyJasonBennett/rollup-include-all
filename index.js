@@ -17,7 +17,6 @@ function rollupIncludeAll() {
   return {
     buildStart(config) {
       // Disable tree-shaking to preserve exports
-      config.treeshake = false
       config.output = { ...config.output, preserveModules: true }
 
       // Transform flatbundle as entrypoint
@@ -33,7 +32,8 @@ function rollupIncludeAll() {
             .replace(/\\+/g, '/') // normalize Unix path separators
             .replace(/\.\w+$/, '') // remove file extensions
 
-          return acc + `import '${localPath}'\n`
+          const namespace = crypto.randomUUID().replace(/\d|\-/g, '')
+          return acc + `import * as ${namespace} from '${localPath}';export { ${namespace} };\n`
         }, ''),
       )
     },
@@ -45,6 +45,9 @@ function rollupIncludeAll() {
       if (entryFile) {
         const { name } = path.parse(entryFile)
         for (const key in bundle) {
+          // Don't emit types
+          if (!bundle[key].exports.length) delete bundle[key]
+          // Remove virtual entrypoint
           if (key.startsWith(name)) delete bundle[key]
         }
       }
